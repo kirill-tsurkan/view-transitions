@@ -1,0 +1,135 @@
+@layer reset {
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background-color: lightgrey;
+        font-family: system-ui;
+        transition-behavior: allow-discrete;
+    }
+}
+
+@layer layout {
+    .wrapper {
+        width: min(1200px, 100% - 16px * 2);
+        margin-inline: auto;
+    }
+
+    .header {
+        padding-block: 16px;
+        background-color: dimgray;
+
+        & ul {
+            list-style: none;
+            display: flex;
+            gap: 16px;
+            padding: 0;
+        }
+
+        & a {
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 8px;
+        width: 100%;
+        background-color: red;
+        view-transition-name: loader;
+        transform-origin: top left;
+        transform: translateX(-100%);
+    }
+}
+
+@layer animations {
+    :root {
+        --animation-duration: 1s;
+    }
+
+    @view-transition {
+        navigation: auto;
+    }
+
+    @keyframes scale-out {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        25% {
+            transform: scale(.95);
+            opacity: 1;
+        }
+        75% {
+            transform: scale(.95);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(.95);
+            opacity: 0;
+        }
+    }
+
+    @keyframes scale-in {
+        0% {
+            transform: scale(.95);
+            opacity: 0;
+        }
+        25% {
+            transform: scale(.95);
+            opacity: 0;
+        }
+        75% {
+            transform: scale(.95);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    ::view-transition-group(root) {
+        background-color: #161517;
+    }
+
+    ::view-transition-old(root) {
+        border-radius: 16px;
+        overflow: hidden;
+        animation: var(--animation-duration) linear both scale-out;
+    }
+
+    ::view-transition-new(root) {
+        border-radius: 16px;
+        overflow: hidden;
+        animation: var(--animation-duration) linear both scale-in;
+    }
+
+    @keyframes grow {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    ::view-transition-old(loader) {
+        animation: var(--animation-duration) ease-in-out both grow;
+    }
+
+    ::view-transition-new(loader) {
+        animation: var(--animation-duration) ease-in-out both grow;
+    }
+}
